@@ -2,7 +2,8 @@ require("dotenv/config");
 
 // core
 const express = require("express"),
-  morgan = require("morgan");
+  morgan = require("morgan"),
+  cors = require("cors");
 
 // routes
 const routes = require("./routes");
