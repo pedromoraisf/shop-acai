@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  api:
+    container_name: uds-api
+    build: ./../api/
+    command: yarn dev
+    ports:
+      - "2000:3000"
+    volumes:
+      - ./../api/:/usr/api
+
+  frontend:
+    container_name: uds-frontend
+    build: ./../frontend/
+    command: yarn dev
+    ports:
+      - "2020:8080"
+    links: 
+      - api
+    volumes:
+      - ./../frontend/:/usr/app
