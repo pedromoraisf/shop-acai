@@ -4,8 +4,8 @@ require("dotenv/config");
 const express = require("express"),
   morgan = require("morgan");
 
-// // routes
-// const routes = require("./routes");
+// routes
+const routes = require("./routes");
 
 // instance
 const app = express();
@@ -13,7 +13,7 @@ const app = express();
 // uses`s
 app.use(express.json());
 app.use(morgan("dev"));
-// app.use(routes);
+app.use(routes);
 
 // listener
 app.listen(process.env.PORT, () => {
