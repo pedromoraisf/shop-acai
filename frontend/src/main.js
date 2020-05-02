@@ -7,6 +7,7 @@ import router from './router';
 import store from './store';
 
 // styles
+import 'animate.css/animate.css';
 import './scss/orchestrator.scss';
 import 'vuesax/dist/vuesax.css';
 
