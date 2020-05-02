@@ -17,22 +17,6 @@ const viewAllOrders = (req, res) => {
  * 
  * @param {*} req 
  * @param {*} res 
- * @description Retorna o registro de acordo com seu slug
- */
-const viewBySlugOrder = (req, res) => {
-
-  const { slug = "" } = req.params;
-
-  return res.json({
-    r: slug
-  });
-};
-
-
-/**
- * 
- * @param {*} req 
- * @param {*} res 
  * @description Salva um registro de pedido na store da model
  */
 const storeOrder = (req, res) => {
@@ -40,7 +24,7 @@ const storeOrder = (req, res) => {
   const { data } = req.body;
 
   if (STORE.SET_STORE(data) <= 0) {
-    
+
     return res.json({
       r: `Erro ao inserir o registro na store`
     });
@@ -57,6 +41,5 @@ const storeOrder = (req, res) => {
 
 module.exports = {
   viewAllOrders,
-  viewBySlugOrder,
   storeOrder
 }
