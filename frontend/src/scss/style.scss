@@ -5,3 +5,11 @@ $font-primary: 'Poppins', sans-serif;
 #app {
   font-family: $font-primary;
 }
+
+.shadow-ghost {
+  box-shadow: 0 6px 20px rgba(0,0,0,.06)!important;
+}
+
+.outline-none {
+  outline: none !important;
+}
