@@ -4,12 +4,12 @@
       <div class="shadow-ghost big-rounded">
         <b-row class="align-items-center py-5">
           <!-- photo -->
-          <b-col cols="12" md="4" class="p-3 p-md-0 p-lg-0 p-xl-0">
+          <b-col cols="5" md="4">
             <img class="img-fluid" :src="require(`@/assets/images/acai.png`)" />
           </b-col>
 
           <!-- desc -->
-          <b-col cols="12" md="7" class="pb-5 pb-md-0 pb-lg-0 pb-xl-0 px-5 px-md-0 px-lg-0 px-xl-0">
+          <b-col cols="7" md="7" class="pr-5 pr-md-0 pr-lg-0 pr-xl-0">
             <div class="d-flex justify-content-between">
               <!-- n -->
               <h5 v-html="`Pedido #${(i + 1)}`" />
@@ -25,8 +25,11 @@
             <p class="infos">{{ o.sabor | saborFilter }}, {{ o.tamanho | tamanhoFilter }}</p>
 
             <!-- price -->
-            <p class="font-weight-bold d-flex mb-0" v-html="$options.filters.precoFilter(o.valorTotal)" />
-          
+            <p
+              class="font-weight-bold d-flex mb-0"
+              v-html="$options.filters.precoFilter(o.valorTotal)"
+            />
+
             <vs-button
               v-if="o.personalizacoes.length"
               :active="showDetails === i"
@@ -36,8 +39,15 @@
               @click.prevent="showDetails !== i ?  showDetails = i :  showDetails = false"
             >{{ showDetails !== i ? `Ver detalhes` : `Fechar detalhes` }}</vs-button>
 
-            <div v-if="showDetails === i" class="detalhes animated fadeIn py-2 px-3 bg-light mt-2 big-rounded text-secondary">
-              <span v-for="(p, y) in o.personalizacoes" :key="p.id" v-html="y === (o.personalizacoes.length - 1) ? p.descricao : `${p.descricao}, `" />
+            <div
+              v-if="showDetails === i"
+              class="detalhes animated fadeIn py-2 px-3 bg-light mt-2 big-rounded text-secondary"
+            >
+              <span
+                v-for="(p, y) in o.personalizacoes"
+                :key="p.id"
+                v-html="y === (o.personalizacoes.length - 1) ? p.descricao : `${p.descricao}, `"
+              />
             </div>
           </b-col>
         </b-row>
@@ -62,7 +72,7 @@ export default {
   },
   filters: {
     saborFilter,
-    tamanhoFilter, 
+    tamanhoFilter,
     precoFilter
   }
 };
@@ -81,10 +91,10 @@ export default {
 }
 
 .infos {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .detalhes {
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 </style>

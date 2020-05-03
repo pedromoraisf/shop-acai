@@ -11,13 +11,7 @@ export default {
   acai: {
     tamanho: "", 
     sabor: "", 
-    personalizacoes: [
-      {
-        descricao: "", 
-        valor: "", 
-        tempoPreparo: ""
-      }
-    ], 
+    personalizacoes: [], 
     tempoPreparo: "", 
     valorTotal: ""
   },
@@ -59,6 +53,26 @@ export default {
       descricao: "Kiwi",
       cor: "success", 
       tempoPreparo: 5
+    }
+  ],
+  personalizacoesOpcoes: [
+    {
+      id: 1, 
+      descricao: "Granola", 
+      valor: false,
+      tempoPreparo: false
+    },
+    {
+      id: 2, 
+      descricao: "Paçoca", 
+      valor: 3.00,
+      tempoPreparo: 3
+    },
+    {
+      id: 3, 
+      descricao: "Leite ninho", 
+      valor: 3.00,
+      tempoPreparo: false
     }
   ]
 };
