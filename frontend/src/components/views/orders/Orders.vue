@@ -46,7 +46,7 @@
               <span
                 v-for="(p, y) in o.personalizacoes"
                 :key="p.id"
-                v-html="y === (o.personalizacoes.length - 1) ? $options.filters.personalizacoesFilter(p) : `${$options.filters.personalizacoesFilter(p)}, `"
+                v-html="y === (o.personalizacoes.length - 1) ? $options.filters.personalizacoesFilter(p).descricao : `${$options.filters.personalizacoesFilter(p).descricao}, `"
               />
             </div>
           </b-col>

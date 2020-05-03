@@ -120,6 +120,21 @@
     >
       <b-container>
         <div class="sub-container">
+          <!-- product overview -->
+          <div v-if="acai.sabor !== '' && acai.tamanho !== ''">
+            <span class="prod-info" v-html="`${$options.filters.saborFilter(acai.sabor)}, ${$options.filters.tamanhoFilter(acai.tamanho)}`" />
+          </div>
+
+          <!-- personalizations overview -->
+          <div class="mb-2" v-if="acai.personalizacoes.length">
+            <span
+              class="p-info font-weight-light"
+              v-for="(p, y) in acai.personalizacoes"
+              :key="p.id"
+              v-html="y === (acai.personalizacoes.length - 1) ? `${$options.filters.personalizacoesFilter(p).descricao} (${$options.filters.precoFilter($options.filters.personalizacoesFilter(p).valor.toString(), true)})` : `${$options.filters.personalizacoesFilter(p).descricao} (${$options.filters.precoFilter($options.filters.personalizacoesFilter(p).valor.toString(), true)}), `"
+            />
+          </div>
+
           <div class="d-flex justify-content-between align-items-center">
             <span
               class="font-weight-bold d-flex mb-0"
@@ -159,6 +174,7 @@ import setOrderDTO from "@/services/dto/set-order.js";
 import saborFilter from "@/js/filters/sabor.js";
 import tamanhoFilter from "@/js/filters/tamanho.js";
 import precoFilter from "@/js/filters/preco.js";
+import personalizacoesFilter from "@/js/filters/personalizacoes.js";
 
 export default {
   data: () => ({
@@ -180,8 +196,7 @@ export default {
 
       this.personalizacoesOpcoes.forEach(p => {
         self.acai.personalizacoes.forEach(aP => {
-          if ((aP === p.id) && p.valor)
-            valorTotal = valorTotal + p.valor;
+          if (aP === p.id && p.valor) valorTotal = valorTotal + p.valor;
         });
       });
 
@@ -203,7 +218,7 @@ export default {
 
       this.personalizacoesOpcoes.forEach(p => {
         self.acai.personalizacoes.forEach(aP => {
-          if ((aP === p.id) && p.tempoPreparo)
+          if (aP === p.id && p.tempoPreparo)
             tempoPreparo = tempoPreparo + p.tempoPreparo;
         });
       });
@@ -265,7 +280,8 @@ export default {
   filters: {
     saborFilter,
     tamanhoFilter,
-    precoFilter
+    precoFilter,
+    personalizacoesFilter
   }
 };
 </script>
@@ -288,6 +304,11 @@ export default {
   border-radius: 3rem;
   overflow-y: scroll;
   padding-bottom: 5rem;
+}
+
+.p-info {
+  font-size: 0.7rem;
+  color: #777;
 }
 
 .header {
