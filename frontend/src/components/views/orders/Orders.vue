@@ -1,8 +1,8 @@
 <template>
-  <b-row>
+  <b-row class="pb-5">
     <b-col class="pt-5 px-4 bg-transparent" cols="12" md="6" v-for="(o, i) in orders" :key="o.id">
       <div class="shadow-ghost big-rounded">
-        <b-row class="align-items-center">
+        <b-row class="align-items-center py-5">
           <!-- photo -->
           <b-col cols="12" md="4" class="p-3 p-md-0 p-lg-0 p-xl-0">
             <img class="img-fluid" :src="require(`@/assets/images/acai.png`)" />
@@ -25,7 +25,20 @@
             <p class="infos">{{ o.sabor | saborFilter }}, {{ o.tamanho | tamanhoFilter }}</p>
 
             <!-- price -->
-            <p class="font-weight-bold d-flex" v-html="$options.filters.precoFilter(o.valorTotal)" />
+            <p class="font-weight-bold d-flex mb-0" v-html="$options.filters.precoFilter(o.valorTotal)" />
+          
+            <vs-button
+              v-if="o.personalizacoes.length"
+              :active="showDetails === i"
+              :color="showDetails !== i ? `dark` : `dribbble`"
+              class="outline-none m-0"
+              floating
+              @click.prevent="showDetails !== i ?  showDetails = i :  showDetails = false"
+            >{{ showDetails !== i ? `Ver detalhes` : `Fechar detalhes` }}</vs-button>
+
+            <div v-if="showDetails === i" class="detalhes animated fadeIn py-2 px-3 bg-light mt-2 big-rounded text-secondary">
+              <span v-for="(p, y) in o.personalizacoes" :key="p.id" v-html="y === (o.personalizacoes.length - 1) ? p.descricao : `${p.descricao}, `" />
+            </div>
           </b-col>
         </b-row>
       </div>
@@ -41,6 +54,9 @@ import tamanhoFilter from "@/js/filters/tamanho.js";
 import precoFilter from "@/js/filters/preco.js";
 
 export default {
+  data: () => ({
+    showDetails: false
+  }),
   computed: {
     ...mapState(["orders"])
   },
@@ -66,5 +82,9 @@ export default {
 
 .infos {
   font-size: .9rem;
+}
+
+.detalhes {
+  font-size: .8rem;
 }
 </style>
