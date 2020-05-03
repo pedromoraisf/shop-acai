@@ -12,6 +12,9 @@ export default new Vuex.Store({
     ordersChange(state, payload) {
       return state.orders = payload;
     },
+    pushOrdersChange(state, payload) {
+      return state.orders.push(payload);
+    },
     showAddOrderChange(state, payload) {
       return state.showAddOrder = payload;
     }
@@ -19,6 +22,9 @@ export default new Vuex.Store({
   actions: {
     commitOrdersChange({ commit }, payload) {
       commit("ordersChange", payload);
+    },
+    commitPushOrdersChange({ commit }, payload) {
+      commit("pushOrdersChange", payload);
     },
     commitShowAddOrder({ commit }, payload) {
       commit("showAddOrderChange", payload);

@@ -1,13 +1,13 @@
 export default (param) => {
   switch (param) {
     case 1:
-      return "Morango";
+      return "Granola";
 
     case 2:
-      return "Banana";
+      return "Paçoca";
 
     case 3:
-      return "Kiwi";
+      return "Leite ninho";
 
     default:
       return "Indefinido";

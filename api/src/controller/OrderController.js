@@ -25,7 +25,7 @@ const storeOrder = (req, res) => {
 
   if (STORE.SET_STORE(data) <= 0) {
 
-    return res.json({
+    return res.status(503).json({
       r: `Erro ao inserir o registro na store`
     });
 

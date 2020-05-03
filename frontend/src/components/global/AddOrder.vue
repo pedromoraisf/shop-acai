@@ -3,7 +3,7 @@
     <b-container class="p-4 p-sm-5 p-md-5 p-lg-5 p-xl-5">
       <div class="sub-container">
         <!-- "page" header -->
-        <header class="text-center position-relative">
+        <header class="header text-center position-relative">
           <h3>Adicionar Pedido</h3>
 
           <button
@@ -15,14 +15,14 @@
         </header>
 
         <!-- product intro -->
-        <section class="text-center">
+        <section class="text-center section">
           <img class="img-fluid" :src="require(`@/assets/images/acai.png`)" />
         </section>
 
         <!-- product infos -->
-        <section>
+        <section class="section">
           <!-- SABOR -->
-          <div class="mt-3">
+          <div class="mt-4 animated fadeIn faster">
             <div class="p-3 bg-light rounded d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column">
                 <span v-html="`Selecione o sabor`" />
@@ -52,7 +52,7 @@
           </div>
 
           <!-- TAMANHO -->
-          <div class="mt-3" v-if="acai.sabor !== ''">
+          <div class="mt-4 animated fadeIn faster" v-if="acai.sabor !== ''">
             <div class="p-3 bg-light rounded d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column">
                 <span v-html="`Selecione o tamanho`" />
@@ -66,11 +66,12 @@
                 v-html="`Obrigatório`"
               />
             </div>
-            <div class="pb-3">
+            <div>
               <vs-radio
                 class="justify-content-start px-3 pt-3"
                 v-model="acai.tamanho"
                 v-for="t in tamanhoOpcoes"
+                color="slack"
                 :key="t.id"
                 :val="t.id"
               >
@@ -83,28 +84,42 @@
           </div>
 
           <!-- PERSONALIZAÇÕES -->
-          <!-- <div class="mt-3" v-if="acai.tamanho !== ''">
+          <div class="mt-4 animated fadeIn faster security-padding" v-if="acai.tamanho !== ''">
             <div class="p-3 bg-light rounded d-flex justify-content-between align-items-start">
               <div class="d-flex flex-column">
-                <span v-html="`Selecione o tamanho`" />
-                <span v-html="acai.tamanho === '' ? `<b>0</b> de <b>1</b>` : `<b>1</b> de <b>1</b>`" />
+                <span v-html="`Personalize seu pedido`" />
+                <span
+                  v-html="`<b>${acai.personalizacoes.length}</b> de <b>${personalizacoesOpcoes.length}</b>`"
+                />
               </div>
 
-              <span class="badge badge-light shadow-ghost d-flex align-items-center p-2" v-html="`Não Obrigatório`" />
+              <span
+                class="badge badge-dark shadow-ghost d-flex align-items-center p-2"
+                v-html="`Não Obrigatório`"
+              />
             </div>
             <div class="pb-3">
-              <vs-radio class="justify-content-start px-3 pt-3" v-model="acai.tamanho" v-for="t in tamanhoOpcoes" :key="t.id" :val="t.id">
-                {{ t.descricao }}
-                <template #icon>
-                  <span style="font-size: .8rem !important;">{{ t.descricao[0] }}</span>
-                </template>
-              </vs-radio>
+              <vs-checkbox
+                class="px-3"
+                color="slack"
+                v-for="p in personalizacoesOpcoes"
+                :key="p.id"
+                :val="p.id"
+                v-model="acai.personalizacoes"
+              >{{ p.descricao }}</vs-checkbox>
             </div>
-          </div>-->
+          </div>
         </section>
+      </div>
+    </b-container>
 
-        <!-- product overview -->
-        <footer class="mt-5" v-if="acai.sabor !== '' && acai.tamanho !== ''">
+    <!-- product overview -->
+    <footer
+      class="footer bg-white shadow pb-2 pt-4 animated fadeIn faster"
+      v-if="acai.sabor !== '' && acai.tamanho !== ''"
+    >
+      <b-container>
+        <div class="sub-container">
           <div class="d-flex justify-content-between align-items-center">
             <span
               class="font-weight-bold d-flex mb-0"
@@ -129,9 +144,9 @@
               <b>Finalizar Pedido</b>
             </vs-button>
           </div>
-        </footer>
-      </div>
-    </b-container>
+        </div>
+      </b-container>
+    </footer>
   </div>
 </template>
 
@@ -163,6 +178,13 @@ export default {
         if (self.acai.tamanho === t.id) valorTotal = t.valor;
       });
 
+      this.personalizacoesOpcoes.forEach(p => {
+        self.acai.personalizacoes.forEach(aP => {
+          if ((aP === p.id) && p.valor)
+            valorTotal = valorTotal + p.valor;
+        });
+      });
+
       return valorTotal.toString();
     },
     tempoPreparo() {
@@ -179,12 +201,27 @@ export default {
           tempoPreparo = tempoPreparo + t.tempoPreparo;
       });
 
+      this.personalizacoesOpcoes.forEach(p => {
+        self.acai.personalizacoes.forEach(aP => {
+          if ((aP === p.id) && p.tempoPreparo)
+            tempoPreparo = tempoPreparo + p.tempoPreparo;
+        });
+      });
+
       return tempoPreparo ? `${tempoPreparo}min` : ``;
     }
   },
   methods: {
-    ...mapActions(["commitShowAddOrder"]),
+    ...mapActions(["commitShowAddOrder", "commitPushOrdersChange"]),
     setOrderDTO,
+    openNotification(position = null, color, title, text) {
+      this.$vs.notification({
+        position,
+        color,
+        title,
+        text
+      });
+    },
     async finalizarPedido() {
       this.loadButton = true;
 
@@ -192,12 +229,34 @@ export default {
       this.acai.tempoPreparo = this.tempoPreparo;
 
       try {
-
         const res = await setOrderDTO(this.acai);
-        console.log(res);
+        if (res.status === 200) {
+          const tempoPreparo = this.acai.tempoPreparo;
 
-      } catch (e) {
-        console.log(e);
+          this.commitPushOrdersChange(this.acai);
+          this.commitShowAddOrder(!this.showAddOrder);
+
+          this.openNotification(
+            "top-center",
+            "success",
+            "Pedido feito com sucesso!",
+            `Em aproximadamente ${tempoPreparo} seu açaí estara pronto 😁`
+          );
+        } else {
+          this.openNotification(
+            "top-center",
+            "danger",
+            "Ocorreu algum erro...",
+            "Por favor, tente novamente 🥶"
+          );
+        }
+      } catch {
+        this.openNotification(
+          "top-center",
+          "danger",
+          "Ocorreu algum erro...",
+          "Por favor, tente novamente 🥶"
+        );
       }
 
       this.loadButton = false;
@@ -211,7 +270,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .sub-container {
   max-width: 580px;
   width: 100%;
@@ -231,7 +290,7 @@ export default {
   padding-bottom: 5rem;
 }
 
-header {
+.header {
   & button {
     position: absolute;
     top: 0;
@@ -239,7 +298,7 @@ header {
   }
 }
 
-section {
+.section {
   & img {
     max-width: 300px;
   }
@@ -254,5 +313,22 @@ section {
     position: relative;
     top: 2px;
   }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.security-padding {
+  padding-bottom: 6rem;
+}
+
+.vs-checkbox-label {
+  position: relative;
+  top: 5px;
 }
 </style>

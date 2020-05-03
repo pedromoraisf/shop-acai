@@ -15,7 +15,7 @@
               <h5 v-html="`Pedido #${(i + 1)}`" />
 
               <!-- time -->
-              <span class="tempo-preparo text-left">
+              <span class="tempo-preparo text-left text-nowrap">
                 <span class="material-icons" v-html="`query_builder`" />
                 {{ o.tempoPreparo }}
               </span>
@@ -36,7 +36,7 @@
               :color="showDetails !== i ? `dark` : `dribbble`"
               class="outline-none m-0"
               floating
-              @click.prevent="showDetails !== i ?  showDetails = i :  showDetails = false"
+              @click.prevent="showDetails !== i ?  showDetails = i : showDetails = false"
             >{{ showDetails !== i ? `Ver detalhes` : `Fechar detalhes` }}</vs-button>
 
             <div
@@ -46,7 +46,7 @@
               <span
                 v-for="(p, y) in o.personalizacoes"
                 :key="p.id"
-                v-html="y === (o.personalizacoes.length - 1) ? p.descricao : `${p.descricao}, `"
+                v-html="y === (o.personalizacoes.length - 1) ? $options.filters.personalizacoesFilter(p) : `${$options.filters.personalizacoesFilter(p)}, `"
               />
             </div>
           </b-col>
@@ -62,6 +62,7 @@ import { mapState } from "vuex";
 import saborFilter from "@/js/filters/sabor.js";
 import tamanhoFilter from "@/js/filters/tamanho.js";
 import precoFilter from "@/js/filters/preco.js";
+import personalizacoesFilter from "@/js/filters/personalizacoes.js";
 
 export default {
   data: () => ({
@@ -73,7 +74,8 @@ export default {
   filters: {
     saborFilter,
     tamanhoFilter,
-    precoFilter
+    precoFilter, 
+    personalizacoesFilter
   }
 };
 </script>
