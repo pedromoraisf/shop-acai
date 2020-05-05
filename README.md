@@ -6,6 +6,12 @@ Projeto realizado contemplando a arquitetura de comunicação RESTful, contendo 
 ## Instalação e usagem
 ### 🐳 Pelo Docker
 ```
+cd api && yarn
+```
+```
+cd frontend && yarn
+```
+```
 cd docker && docker-compose up --build
 ```
 
