@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800&display=swap');
+
+$font-primary: 'Poppins', sans-serif;
+
+#app {
+  font-family: $font-primary;
+}
+
+.shadow-ghost {
+  box-shadow: 0 6px 20px rgba(0,0,0,.06)!important;
+}
+
+.outline-none {
+  outline: none !important;
+}
+
+.price-more {
+  font-size: 1.6rem;
+  position: relative;
+  top: -5px;
+  margin-left: 2px;
+}
+
+.big-rounded {
+  border-radius: 1.25rem !important;
+}
