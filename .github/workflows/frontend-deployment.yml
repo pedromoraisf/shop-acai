@@ -26,7 +26,7 @@ jobs:
 
       # Branching Deploy
       - uses: amondnet/vercel-action@v20
-        id: vercel-deploy-production
+        id: vercel-deploy-branching
         if: github.ref != 'refs/tags/main'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
