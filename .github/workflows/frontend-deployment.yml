@@ -3,6 +3,8 @@ name: Deploy in Vercel Workflow
 on:
   push:
     branches: [main]
+    paths:
+      - "frontend/**"
 
 jobs:
   deploy:
