@@ -18,6 +18,6 @@ app.use(cors());
 app.use(routes);
 
 // listener
-app.listen(process.env.PORT, () =>
-  console.log(`Server listening on ${process.env.PORT}`)
-);
+app.listen(process.env.PORT, () => {
+  console.log(`Server listening on ${process.env.PORT}`);
+});
