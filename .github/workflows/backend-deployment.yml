@@ -20,3 +20,4 @@ jobs:
           heroku_app_name: "${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           branch: ${{ github.ref }}
+          appdir: api
