@@ -19,3 +19,4 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          branch: ${{ github.ref }}
