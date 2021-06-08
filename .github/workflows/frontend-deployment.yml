@@ -12,13 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
       # Production Deploy
       - uses: amondnet/vercel-action@v20
         id: vercel-deploy-production
         if: github.ref == 'refs/tags/main'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod'
+          vercel-args: '--prod --build-env VUE_APP_API=https://api-shop-acai.herokuapp.com'
           vercel-org-id: ${{ secrets.ORG_ID}}
           vercel-project-id: ${{ secrets.PROJECT_ID}}
           working-directory: ./frontend
@@ -29,6 +32,7 @@ jobs:
         if: github.ref != 'refs/tags/main'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: '--build-env VUE_APP_API=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com'
           vercel-org-id: ${{ secrets.ORG_ID}}
           vercel-project-id: ${{ secrets.PROJECT_ID}}
           working-directory: ./frontend
