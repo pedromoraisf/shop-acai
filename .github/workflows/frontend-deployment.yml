@@ -18,7 +18,7 @@ jobs:
       # Production Deploy
       - uses: amondnet/vercel-action@v20
         id: vercel-deploy-production
-        if: github.ref == 'refs/tags/main'
+        if: github.ref == 'refs/heads/main'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: '--prod --build-env VUE_APP_API=https://api-shop-acai.herokuapp.com'
@@ -29,7 +29,7 @@ jobs:
       # Branching Deploy
       - uses: amondnet/vercel-action@v20
         id: vercel-deploy-branching
-        if: github.ref != 'refs/tags/main'
+        if: github.ref != 'refs/heads/main'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: '--build-env VUE_APP_API=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com'
