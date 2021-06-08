@@ -1,0 +1,23 @@
+name: Deploy in Heroku Workflow
+
+on:
+  push:
+    paths:
+      - "api/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}"
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          branch: ${{ github.ref }}
+          appdir: api

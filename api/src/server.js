@@ -19,5 +19,5 @@ app.use(routes);
 
 // listener
 app.listen(process.env.PORT, () => {
-  console.log(`Server listening on ${process.env.PORT}`)
+  console.log(`Server listening on ${process.env.PORT}`);
 });
